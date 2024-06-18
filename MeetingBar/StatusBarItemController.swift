@@ -273,6 +273,9 @@ class StatusBarItemController {
         statusItemMenu.autoenablesItems = false
         statusItemMenu.removeAllItems()
 
+        createJoinSection()
+        statusItemMenu.addItem(NSMenuItem.separator())
+        
         if calendars.contains(where: { $0.selected }) {
             let today = Date()
             switch Defaults[.showEventsForPeriod] {
@@ -296,8 +299,6 @@ class StatusBarItemController {
             item.attributedTitle = NSAttributedString(string: text, attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle])
             item.isEnabled = false
         }
-        statusItemMenu.addItem(NSMenuItem.separator())
-        createJoinSection()
 
         if !Defaults[.bookmarks].isEmpty {
             statusItemMenu.addItem(NSMenuItem.separator())
@@ -692,24 +693,24 @@ class StatusBarItemController {
         }
 
         // MENU ITEM: Create meeting
-        let createEventItem = NSMenuItem()
-        createEventItem.title = "status_bar_section_join_create_meeting".loco()
-        createEventItem.action = #selector(createMeetingAction)
-        createEventItem.target = self
-        createEventItem.keyEquivalent = ""
-        createEventItem.setShortcut(for: .createMeetingShortcut)
-
-        statusItemMenu.addItem(createEventItem)
+//        let createEventItem = NSMenuItem()
+//        createEventItem.title = "status_bar_section_join_create_meeting".loco()
+//        createEventItem.action = #selector(createMeetingAction)
+//        createEventItem.target = self
+//        createEventItem.keyEquivalent = ""
+//        createEventItem.setShortcut(for: .createMeetingShortcut)
+//
+//        statusItemMenu.addItem(createEventItem)
 
         // MENU ITEM: Quick actions menu
-        let quickActionsItem = statusItemMenu.addItem(
-            withTitle: "status_bar_quick_actions".loco(),
-            action: nil,
-            keyEquivalent: ""
-        )
-        quickActionsItem.isEnabled = true
-
-        quickActionsItem.submenu = NSMenu(title: "status_bar_quick_actions".loco())
+//        let quickActionsItem = statusItemMenu.addItem(
+//            withTitle: "status_bar_quick_actions".loco(),
+//            action: nil,
+//            keyEquivalent: ""
+//        )
+//        quickActionsItem.isEnabled = true
+//
+//        quickActionsItem.submenu = NSMenu(title: "status_bar_quick_actions".loco())
 
         // MENU ITEM: QUICK ACTIONS: Dismiss meeting
         if let nextEvent = nextEvent {
@@ -719,7 +720,7 @@ class StatusBarItemController {
             } else {
                 itemTitle = "status_bar_menu_dismiss_next_meeting".loco()
             }
-            let dismissMeetingItem = quickActionsItem.submenu!.addItem(
+            let dismissMeetingItem = statusItemMenu.addItem(
                 withTitle: itemTitle,
                 action: #selector(dismissNextMeetingAction),
                 keyEquivalent: ""
@@ -727,37 +728,37 @@ class StatusBarItemController {
             dismissMeetingItem.target = self
         }
 
-        if !Defaults[.dismissedEvents].isEmpty {
-            let undiDismissMeetingsItem = quickActionsItem.submenu!.addItem(
-                withTitle: "status_bar_menu_remove_all_dismissals".loco(),
-                action: #selector(undismissMeetingsActions),
-                keyEquivalent: ""
-            )
-            undiDismissMeetingsItem.target = self
-        }
+//        if !Defaults[.dismissedEvents].isEmpty {
+//            let undoDismissMeetingsItem = statusItemMenu.addItem(
+//                withTitle: "status_bar_menu_remove_all_dismissals".loco(),
+//                action: #selector(undismissMeetingsActions),
+//                keyEquivalent: ""
+//            )
+//            undoDismissMeetingsItem.target = self
+//        }
 
         // MENU ITEM: QUICK ACTIONS: Open link from clipboard
-        let openLinkFromClipboardItem = NSMenuItem()
-        openLinkFromClipboardItem.title = "status_bar_section_join_from_clipboard".loco()
-        openLinkFromClipboardItem.action = #selector(openLinkFromClipboardAction)
-        openLinkFromClipboardItem.target = self
-        openLinkFromClipboardItem.keyEquivalent = ""
-        openLinkFromClipboardItem.setShortcut(for: .openClipboardShortcut)
-        quickActionsItem.submenu!.addItem(openLinkFromClipboardItem)
+//        let openLinkFromClipboardItem = NSMenuItem()
+//        openLinkFromClipboardItem.title = "status_bar_section_join_from_clipboard".loco()
+//        openLinkFromClipboardItem.action = #selector(openLinkFromClipboardAction)
+//        openLinkFromClipboardItem.target = self
+//        openLinkFromClipboardItem.keyEquivalent = ""
+//        openLinkFromClipboardItem.setShortcut(for: .openClipboardShortcut)
+//        quickActionsItem.submenu!.addItem(openLinkFromClipboardItem)
 
         // MENU ITEM: QUICK ACTIONS: Toggle meeting name visibility
-        if Defaults[.eventTitleFormat] == .show {
-            let toggleMeetingTitleVisibilityItem = NSMenuItem()
-            if Defaults[.hideMeetingTitle] {
-                toggleMeetingTitleVisibilityItem.title = "status_bar_show_meeting_names".loco()
-            } else {
-                toggleMeetingTitleVisibilityItem.title = "status_bar_hide_meeting_names".loco()
-            }
-            toggleMeetingTitleVisibilityItem.action = #selector(toggleMeetingTitleVisibility)
-            toggleMeetingTitleVisibilityItem.target = self
-            toggleMeetingTitleVisibilityItem.setShortcut(for: .toggleMeetingTitleVisibilityShortcut)
-            quickActionsItem.submenu!.addItem(toggleMeetingTitleVisibilityItem)
-        }
+//        if Defaults[.eventTitleFormat] == .show {
+//            let toggleMeetingTitleVisibilityItem = NSMenuItem()
+//            if Defaults[.hideMeetingTitle] {
+//                toggleMeetingTitleVisibilityItem.title = "status_bar_show_meeting_names".loco()
+//            } else {
+//                toggleMeetingTitleVisibilityItem.title = "status_bar_hide_meeting_names".loco()
+//            }
+//            toggleMeetingTitleVisibilityItem.action = #selector(toggleMeetingTitleVisibility)
+//            toggleMeetingTitleVisibilityItem.target = self
+//            toggleMeetingTitleVisibilityItem.setShortcut(for: .toggleMeetingTitleVisibilityShortcut)
+//            statusItemMenu.addItem(toggleMeetingTitleVisibilityItem)
+//        }
 
         // MENU ITEM: QUICK ACTIONS: Refresh sources
         let refreshSourcesItem = NSMenuItem()
@@ -765,7 +766,7 @@ class StatusBarItemController {
         refreshSourcesItem.action = #selector(refreshSources)
         refreshSourcesItem.target = self
         refreshSourcesItem.keyEquivalent = ""
-        quickActionsItem.submenu!.addItem(refreshSourcesItem)
+        statusItemMenu.addItem(refreshSourcesItem)
     }
 
     /*
