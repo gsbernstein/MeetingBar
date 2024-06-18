@@ -33,26 +33,14 @@ func registerNotificationCategories() {
                                           title: "notifications_snooze_for".loco(String(NotificationEventTimeAction.fiveMinuteLater.durationInMins)),
                                           options: .foreground)
 
-    let snooze10Min = UNNotificationAction(identifier: NotificationEventTimeAction.tenMinuteLater.rawValue,
-                                           title: "notifications_snooze_for".loco(String(NotificationEventTimeAction.tenMinuteLater.durationInMins)),
-                                           options: .foreground)
-
-    let snooze15Min = UNNotificationAction(identifier: NotificationEventTimeAction.fifteenMinuteLater.rawValue,
-                                           title: "notifications_snooze_for".loco(String(NotificationEventTimeAction.fifteenMinuteLater.durationInMins)),
-                                           options: .foreground)
-
-    let snooze30Min = UNNotificationAction(identifier: NotificationEventTimeAction.thirtyMinuteLater.rawValue,
-                                           title: "notifications_snooze_for".loco(String(NotificationEventTimeAction.thirtyMinuteLater.durationInMins)),
-                                           options: .foreground)
-
     let eventCategory = UNNotificationCategory(identifier: "EVENT",
-                                               actions: [acceptAction, dismissAction, snoozeUntilStartTime, snooze5Min, snooze10Min, snooze15Min, snooze30Min],
+                                               actions: [acceptAction, dismissAction, snoozeUntilStartTime, snooze5Min],
                                                intentIdentifiers: [],
                                                hiddenPreviewsBodyPlaceholder: "",
                                                options: [.customDismissAction, .hiddenPreviewsShowTitle])
 
     let snoozeEventCategory = UNNotificationCategory(identifier: "SNOOZE_EVENT",
-                                                     actions: [acceptAction, dismissAction, snooze5Min, snooze10Min, snooze15Min, snooze30Min],
+                                                     actions: [acceptAction, dismissAction, snooze5Min],
                                                      intentIdentifiers: [],
                                                      hiddenPreviewsBodyPlaceholder: "",
                                                      options: [.customDismissAction, .hiddenPreviewsShowTitle])
