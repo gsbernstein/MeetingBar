@@ -878,7 +878,7 @@ class StatusBarItemController {
         if let nextEvent = getNextEvent(events: events) {
             let dismissedEvent = ProcessedEvent(id: nextEvent.ID, lastModifiedDate: nextEvent.lastModifiedDate, eventEndDate: nextEvent.endDate)
             Defaults[.dismissedEvents].append(dismissedEvent)
-            sendNotification("notification_next_meeting_dismissed_title".loco(nextEvent.title), "notification_next_meeting_dismissed_message".loco())
+//            sendNotification("notification_next_meeting_dismissed_title".loco(nextEvent.title), "notification_next_meeting_dismissed_message".loco())
 
             updateTitle()
             updateMenu()
