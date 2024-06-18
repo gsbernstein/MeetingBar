@@ -53,7 +53,8 @@ class StatusBarItemController {
 
         if event?.type == .rightMouseUp {
             // Right button click
-            joinNextMeeting()
+//            joinNextMeeting()
+            openMenu()
         } else if event == nil || event?.type == .leftMouseDown || event?.type == .leftMouseUp {
             // show the menu as normal
             openMenu()
