@@ -548,6 +548,18 @@ class StatusBarItemController {
             eventMenu.addItem(withTitle: "status_bar_submenu_status_title".loco(status), action: nil, keyEquivalent: "")
             eventMenu.addItem(NSMenuItem.separator())
 
+            // Dismiss/undismiss meeting
+            let dismissalItem: NSMenuItem
+            if Defaults[.dismissedEvents].contains(where: { $0.id == event.ID }) {
+                dismissalItem = eventMenu.addItem(withTitle: "status_bar_submenu_undismiss_meeting".loco(), action: #selector(undismissEvent), keyEquivalent: "")
+                
+            } else {
+                dismissalItem = eventMenu.addItem(withTitle: "status_bar_submenu_dismiss_meeting".loco(), action: #selector(dismissEvent), keyEquivalent: "")
+            }
+            dismissalItem.target = self
+            dismissalItem.representedObject = event
+            eventMenu.addItem(NSMenuItem.separator())
+            
             // Duration
             if !event.isAllDay {
                 let eventEndTime = eventTimeFormatter.string(from: event.endDate)
@@ -628,17 +640,6 @@ class StatusBarItemController {
             let copyLinkItem = eventMenu.addItem(withTitle: "status_bar_submenu_copy_meeting_link".loco(), action: #selector(copyEventMeetingLink), keyEquivalent: "")
             copyLinkItem.target = self
             copyLinkItem.representedObject = event
-
-            // Dismiss/undismiss meeting
-            if Defaults[.dismissedEvents].contains(where: { $0.id == event.ID }) {
-                let undismissItem = eventMenu.addItem(withTitle: "status_bar_submenu_undismiss_meeting".loco(), action: #selector(undismissEvent), keyEquivalent: "")
-                undismissItem.target = self
-                undismissItem.representedObject = event
-            } else {
-                let dismissItem = eventMenu.addItem(withTitle: "status_bar_submenu_dismiss_meeting".loco(), action: #selector(dismissEvent), keyEquivalent: "")
-                dismissItem.target = self
-                dismissItem.representedObject = event
-            }
 
             // Send email
             let emailItem = eventMenu.addItem(withTitle: "status_bar_submenu_email_attendees".loco(), action: #selector(emailAttendees), keyEquivalent: "")
