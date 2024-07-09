@@ -135,7 +135,7 @@ extension EKEventStore: EventStore {
                 let event = MBEvent(
                     ID: rawEvent.calendarItemIdentifier,
                     lastModifiedDate: rawEvent.lastModifiedDate,
-                    title: rawEvent.title,
+                    title: rawEvent.title.nilIfEmpty(),
                     status: status,
                     notes: rawEvent.notes,
                     location: rawEvent.location,
@@ -164,4 +164,10 @@ func getGmailAccount(_ text: String) -> String? {
         return resultsMap.first
     }
     return nil
+}
+
+public extension String {
+    func nilIfEmpty() -> String? {
+        return self.isEmpty ? nil : self
+    }
 }
